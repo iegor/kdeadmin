@@ -754,7 +754,7 @@ messages:
 .NOEXPORT:
 
 #>+ 2
-KDE_DIST=configure.in.in Makefile.in Makefile.am 
+KDE_DIST=Makefile.in Makefile.am 
 
 #>+ 2
 docs-am:

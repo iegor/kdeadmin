@@ -957,7 +957,7 @@ $(CONF_FILES):
 .NOEXPORT:
 
 #>+ 2
-KDE_DIST=stamp-h.in COPYING-DOCS subdirs Makefile.in configure.files config.h.in configure.in kdeadmin.lsm Makefile.cvs aclocal.m4 configure.in.in configure Makefile.am acinclude.m4 Makefile.am.in 
+KDE_DIST=stamp-h.in COPYING-DOCS subdirs Makefile.in configure.files config.h.in configure.in kdeadmin.kdevelop kdeadmin.lsm Makefile.cvs aclocal.m4 Doxyfile configure.in.in configure Makefile.am acinclude.m4 kdeadmin.kdevses Makefile.am.in 
 
 #>+ 2
 docs-am:

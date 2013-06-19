@@ -203,15 +203,6 @@ dnl "int main()") so C++ compilers would break. Thats why we switch languages
 AC_C_BIGENDIAN
 AC_LANG_RESTORE
 dnl =======================================================
-dnl FILE: ./lilo-config/configure.in.in
-dnl =======================================================
-
-KDE_FIND_PATH(lilo, LILO, [/sbin /usr/sbin /usr/local/sbin /opt/lilo],
-[
-	DO_NOT_COMPILE="$DO_NOT_COMPILE lilo-config" 
-])
-
-dnl =======================================================
 dnl FILE: ./lilo-config/qt/configure.in.in
 dnl =======================================================
 
