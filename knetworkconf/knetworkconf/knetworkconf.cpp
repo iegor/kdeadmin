@@ -31,7 +31,7 @@ KNetworkConf::KNetworkConf(QWidget *parent, const char *name) : DCOPObject("KNet
   klvProfilesList->setRenameable(1,true);
   QToolTip::remove( &(QListView)klvProfilesList );
   tooltip = new KProfilesListViewToolTip(klvProfilesList);
-    
+
   //Connect signals emmitted by the backend to know when data is ready to be painted.
   connect(config,SIGNAL(readyLoadingNetworkInfo()),this,SLOT(getNetworkInfoSlot()));
   connect(config,SIGNAL(readyLoadingNetworkInfo()),this,SLOT(showMainWindow()));
@@ -74,7 +74,7 @@ void KNetworkConf::getNetworkInfoSlot()
     routingInfo = netInfo->getRoutingInfo();
     dnsInfo = netInfo->getDNSInfo();
     profilesList = netInfo->getProfilesList();
-    
+
     loadNetworkDevicesInfo();
     loadRoutingInfo();
     loadDNSInfo();
@@ -223,10 +223,10 @@ void KNetworkConf::editServerSlot(){
 void KNetworkConf::configureDeviceSlot(){
   QListViewItem *item = klvCardList->currentItem();
   KWirelessInterface *wifiDev = NULL;
-  
+
   //KAddDeviceContainer *configDlg = new KAddDeviceContainer(this,0);
   KAddDeviceContainer configDlg(this,0);
-  
+
   if (item != NULL)
   {
     QString currentDevice = item->text(0);
@@ -267,7 +267,7 @@ void KNetworkConf::configureDeviceSlot(){
       advancedOptions->kleBroadcast->setText(dev->getBroadcast());
     else
       advancedOptions->kleBroadcast->setText(KAddressValidator::calculateBroadcast(dev->getIpAddress(),dev->getNetmask()));
-      
+
     advancedOptions->kleGateway->setText(dev->getGateway());
 
     if (!dev->getNetmask().isEmpty())
@@ -279,7 +279,7 @@ void KNetworkConf::configureDeviceSlot(){
       configDlg.addDlg->kcbstartAtBoot->setEnabled(false);
       advancedOptions->gbAdvancedDeviceInfo->setEnabled(false);
     }
-            
+
     //If the interface is wireless, then add the wireless configuration widget
     if (dev->getType() == WIRELESS_IFACE_TYPE){
       wifiDev = static_cast<KWirelessInterface*>(dev);
@@ -287,7 +287,7 @@ void KNetworkConf::configureDeviceSlot(){
       configDlg.extDlg->kleEssid->setText(wifiDev->getEssid());
       configDlg.extDlg->kleWepKey->setText(wifiDev->getWepKey());
       if (wifiDev->getKeyType() == WIRELESS_WEP_KEY_TYPE_ASCII)
-        configDlg.extDlg->qcbKeyType->setCurrentItem(0);              
+        configDlg.extDlg->qcbKeyType->setCurrentItem(0);
       else if (wifiDev->getKeyType() == WIRELESS_WEP_KEY_TYPE_HEXADECIMAL)
         configDlg.extDlg->qcbKeyType->setCurrentItem(1);
     }
@@ -354,7 +354,7 @@ void KNetworkConf::configureDeviceSlot(){
           wifiDev->setEssid(configDlg.extDlg->kleEssid->text());
           wifiDev->setWepKey(configDlg.extDlg->kleWepKey->password());
           wifiDev->setKeyType(configDlg.extDlg->qcbKeyType->currentText());
-          dev = wifiDev;          
+          dev = wifiDev;
         }
         devicesModified = true;
         enableApplyButtonSlot();
@@ -409,23 +409,23 @@ void KNetworkConf::loadRoutingInfo(){
   else
   {
     //Take the default gateway from the gateway field of the default gateway interface
-    //because some platforms (Debian-like ones) seems that don't handle the concept of a default 
+    //because some platforms (Debian-like ones) seems that don't handle the concept of a default
     //gateway, instead a gateway per interface.
     KNetworkInterface *device;
     QString defaultGwDevice = routingInfo->getGatewayDevice();
     QPtrList<KNetworkInterface> deviceList = netInfo->getDeviceList();
     for (device = deviceList.first(); device; device = deviceList.next())
-    {  
+    {
       if ( device->getDeviceName() == defaultGwDevice )
       {
-        if ( !device->getGateway().isEmpty() )  
+        if ( !device->getGateway().isEmpty() )
         {
           kleDefaultRoute->setText(device->getGateway());
         }
       }
-    }    
-  }  
-    
+    }
+  }
+
   kcbGwDevice->clear();
   kcbGwDevice->insertStringList(deviceNamesList);
   if (!routingInfo->getGatewayDevice().isEmpty())
@@ -477,7 +477,7 @@ void KNetworkConf::loadDNSInfo(){
 void KNetworkConf::loadNetworkProfiles(){
   QPtrListIterator<KNetworkInfo> it(profilesList);
   KNetworkInfo *profile = NULL;
-  
+
   klvProfilesList->clear();
   while ((profile = it.current()) != 0)
   {
@@ -487,7 +487,7 @@ void KNetworkConf::loadNetworkProfiles(){
       QListViewItem * item = new QListViewItem( klvProfilesList, 0 );
       item->setText(0,profile->getProfileName());
     }
-  }    
+  }
 }
 
 /** Shows the help browser. Hopefully some day it will be one :-). */
@@ -612,23 +612,23 @@ void KNetworkConf::saveInfoSlot(){
     netInfo->setDNSInfo(dnsInfo);
 
     //Add the default gateway to the gateway field of the default gateway interface
-    //because some platforms (Debian-like ones) get the default gateway from there 
+    //because some platforms (Debian-like ones) get the default gateway from there
     //instead from the default gateway field. funny huh?
     KNetworkInterface *device;
     QString defaultGwDevice = routingInfo->getGatewayDevice();
     QString defaultGwAddress = routingInfo->getGateway();
     QPtrList<KNetworkInterface> deviceList = netInfo->getDeviceList();
     for (device = deviceList.first(); device; device = deviceList.next())
-    {  
+    {
       if ( device->getGateway().length() == 0 )
       {
-        if ( device->getDeviceName() == defaultGwDevice )  
+        if ( device->getDeviceName() == defaultGwDevice )
         {
           device->setGateway(defaultGwAddress);
         }
       }
-    }  
-    
+    }
+
     config->saveNetworkInfo(netInfo);
     modified = false;
   }
@@ -830,7 +830,7 @@ void KNetworkConf::enableInterfaceSlot()
                      i18n("New Configuration Not Saved"),
                      KStdGuiItem::apply()) == KMessageBox::Continue)
       saveInfoSlot();
-    else    
+    else
       return;
   }
 
@@ -849,7 +849,7 @@ void KNetworkConf::disableInterfaceSlot()
                      i18n("New Configuration Not Saved"),
                      KStdGuiItem::apply()) == KMessageBox::Continue)
       saveInfoSlot();
-    else    
+    else
       return;
   }
 
@@ -1015,16 +1015,16 @@ void KNetworkConf::enableProfileSlot()
 {
   //Get selected profile
   QListViewItem *item = klvProfilesList->currentItem();
-  
+
   if (item != NULL)
   {
-    QString selectedProfile = item->text(0);  
-  
+    QString selectedProfile = item->text(0);
+
     //And search for it in the profiles list
     KNetworkInfo *profile = getProfile(netInfo->getProfilesList(),selectedProfile);
     if (profile != NULL)
-    { 
-      profile->setProfilesList(netInfo->getProfilesList()); 
+    {
+      profile->setProfilesList(netInfo->getProfilesList());
       config->saveNetworkInfo(profile);
       modified = false;
       //connect( config, SIGNAL(readyLoadingNetworkInfo()), this, SLOT(showSelectedProfile(selectedProfile)) );
@@ -1033,14 +1033,14 @@ void KNetworkConf::enableProfileSlot()
       KMessageBox::error(this,
                           i18n("Could not load the selected Network Profile."),
                           i18n("Error Reading Profile"));
-  }      
+  }
 }
 
 KNetworkInfo *KNetworkConf::getProfile(QPtrList<KNetworkInfo> profilesList, QString selectedProfile)
 {
   QPtrListIterator<KNetworkInfo> it(profilesList);
   KNetworkInfo *net = NULL;
-    
+
   while ((net = it.current()) != 0)
   {
     ++it;
@@ -1055,20 +1055,20 @@ void KNetworkConf::createProfileSlot()
   if (!netInfo)
 		  return;
   bool ok;
-  QString newProfileName = KInputDialog::getText(i18n("Create New Network Profile"), 
-                                        i18n("Name of new profile:"), 
+  QString newProfileName = KInputDialog::getText(i18n("Create New Network Profile"),
+                                        i18n("Name of new profile:"),
                                         QString::null, &ok, this );
-  if ( ok && !newProfileName.isEmpty() ) 
+  if ( ok && !newProfileName.isEmpty() )
   {
     QPtrList<KNetworkInfo> profiles = netInfo->getProfilesList();
     KNetworkInfo *currentProfile = getProfile(profiles,newProfileName);
     KNetworkInfo *newProfile = new KNetworkInfo();
-  
+
     //If there isn't a profile with the new name we add it to the list.
     if (currentProfile == NULL)
     {
       QListViewItem *newItem =  new QListViewItem( klvProfilesList,newProfileName);
-    
+
       //memcpy(newProfile,netInfo,sizeof(netInfo) + sizeof(KRoutingInfo) + sizeof(KDNSInfo));
       //Is there a better way to copy an object? the above memcpy doesn't do the trick
       newProfile->setProfileName(newProfileName);
@@ -1078,32 +1078,32 @@ void KNetworkConf::createProfileSlot()
       newProfile->setPlatformName(netInfo->getPlatformName());
       newProfile->setProfilesList(netInfo->getProfilesList());
       newProfile->setRoutingInfo(netInfo->getRoutingInfo());
-  
+
       profiles.append(newProfile);
       netInfo->setProfilesList(profiles);
-      enableApplyButtonSlot(); 
-    }  
+      enableApplyButtonSlot();
+    }
     else
       KMessageBox::error(this,
                         i18n("There is already another profile with that name."),
                         i18n("Error"));
   }
-                          
+
 }
 
 /*void KNetworkConf::updateProfileNameSlot(QListViewItem *item)
 {
   QString newName = item->text(0);
-  
+
   if (newName.isEmpty())
     KMessageBox::error(this,
                         i18n("The profile name can't be left blank."),
                         i18n("Error"));
   else
-  {                      
-    KNetworkInfo *currentProfile = getProfile(netInfo->getProfilesList(),newName);  
+  {
+    KNetworkInfo *currentProfile = getProfile(netInfo->getProfilesList(),newName);
     KNetworkInfo *newProfile = new KNetworkInfo();
-  
+
     //If there is a profile with that name we rename it to the new name.
     if (currentProfile != NULL)
     {
@@ -1111,7 +1111,7 @@ void KNetworkConf::createProfileSlot()
       modified = false;
       enableApplyButtonSlot();
     }
-  }  
+  }
 }*/
 
 void KNetworkConf::removeProfileSlot()
@@ -1122,26 +1122,26 @@ void KNetworkConf::removeProfileSlot()
 /*    if (KMessageBox::warningContinueCancel(this,
                         i18n("Are you sure you want to delete the selected network profile?"),
                         i18n("Delete Profile"),KStdGuiItem::del()) == KMessageBox::Continue)*/
-    {                    
+    {
       QString selectedProfile = item->text(0);
       QPtrList<KNetworkInfo> profiles = netInfo->getProfilesList();
       KNetworkInfo *profileToDelete = NULL;
-  
+
       for ( profileToDelete = profiles.first(); profileToDelete; profileToDelete = profiles.next() )
       {
         QString profileName = profileToDelete->getProfileName();
         if (profileName == selectedProfile)
-        {    
+        {
           profiles.remove(profileToDelete);
           netInfo->setProfilesList(profiles);
           klvProfilesList->takeItem(item);
-          modified = false;        
+          modified = false;
           enableApplyButtonSlot();
           break;
         }
       }
-    }  
-  }  
+    }
+  }
 }
 
 void KNetworkConf::updateProfileSlot()
@@ -1153,12 +1153,12 @@ void KNetworkConf::updateProfileSlot()
     QPtrList<KNetworkInfo> profiles = netInfo->getProfilesList();
     KNetworkInfo *profileToUpdate = NULL;
     KNetworkInfo *newProfile = new KNetworkInfo();
-  
+
     for ( profileToUpdate = profiles.first(); profileToUpdate; profileToUpdate = profiles.next() )
     {
       QString profileName = profileToUpdate->getProfileName();
       if (profileName == selectedProfile)
-      { 
+      {
         qDebug("profile updated");
         newProfile->setProfileName(profileName);
         newProfile->setDNSInfo(netInfo->getDNSInfo());
@@ -1167,15 +1167,15 @@ void KNetworkConf::updateProfileSlot()
         newProfile->setPlatformName(netInfo->getPlatformName());
         newProfile->setProfilesList(netInfo->getProfilesList());
         newProfile->setRoutingInfo(netInfo->getRoutingInfo());
-  
-        
-        profileToUpdate = netInfo;   
+
+
+        profileToUpdate = netInfo;
         int curPos = profiles.at();
-  //      profileToUpdate->setProfileName(profileName);   
+  //      profileToUpdate->setProfileName(profileName);
         profiles.remove();
         profiles.insert(curPos,newProfile);
         netInfo->setProfilesList(profiles);
-        modified = false;        
+        modified = false;
         enableApplyButtonSlot();
         break;
       }
