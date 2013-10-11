@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
-
 #include "knetworkconf.h"
 
 KNetworkConf::KNetworkConf(QWidget *parent, const char *name) : DCOPObject("KNetworkConfIface"), KNetworkConfDlg(parent, name)
@@ -517,7 +516,7 @@ void KNetworkConf::setReadOnly(bool state){
   KNetworkConf::readOnly = state;
 }
 /** No descriptions */
-void KNetworkConf::enableApplyButtonSlot(const QString &text){
+void KNetworkConf::enableApplyButtonSlot(const QString &/*text*/){
   enableApplyButtonSlot();
 }
 /** No descriptions */
@@ -977,7 +976,7 @@ void KNetworkConf::setReadOnlySlot(bool state)
 }
 
 /*Shows a context menu when right-clicking in the interface list*/
-void KNetworkConf::showInterfaceContextMenuSlot(KListView* lv, QListViewItem* lvi, const QPoint& pt)
+void KNetworkConf::showInterfaceContextMenuSlot(KListView* /*lv*/, QListViewItem* /*lvi*/, const QPoint& pt)
 {
   KPopupMenu *context = new KPopupMenu( this );
   Q_CHECK_PTR( context );
@@ -1067,7 +1066,7 @@ void KNetworkConf::createProfileSlot()
     //If there isn't a profile with the new name we add it to the list.
     if (currentProfile == NULL)
     {
-      QListViewItem *newItem =  new QListViewItem( klvProfilesList,newProfileName);
+//       QListViewItem *newItem =  new QListViewItem( klvProfilesList,newProfileName);
 
       //memcpy(newProfile,netInfo,sizeof(netInfo) + sizeof(KRoutingInfo) + sizeof(KDNSInfo));
       //Is there a better way to copy an object? the above memcpy doesn't do the trick
